@@ -61,6 +61,7 @@ function Login() {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
     // Clear error when user types
+    // wipe the inline error as soon as they start correcting it
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
@@ -70,7 +71,6 @@ function Login() {
   return (
     <div className="min-h-screen bg-gradient-warm flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-block">
             <img src={logo} alt="Genesi" className="h-16 w-auto mx-auto mb-4" />
@@ -79,7 +79,7 @@ function Login() {
           <p className="text-gray-500 mt-2">Continue your fertility journey</p>
         </div>
 
-        {/* Form Card */}
+        {/* TODO: add "forgot password" flow when Supabase email is set up */}
         <div className="card p-8">
           {authError && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-3">
@@ -89,7 +89,6 @@ function Login() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -117,7 +116,6 @@ function Login() {
               )}
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -152,7 +150,6 @@ function Login() {
               )}
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -172,7 +169,6 @@ function Login() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200" />
@@ -182,7 +178,6 @@ function Login() {
             </div>
           </div>
 
-          {/* Sign Up Link */}
           <p className="text-center text-gray-600">
             Don't have an account?{' '}
             <Link to="/signup" className="text-terracotta-600 font-medium hover:text-terracotta-700">
@@ -191,7 +186,6 @@ function Login() {
           </p>
         </div>
 
-        {/* Back to Home */}
         <p className="text-center mt-6">
           <Link to="/" className="text-sm text-gray-400 hover:text-gray-600">
             ← Back to home

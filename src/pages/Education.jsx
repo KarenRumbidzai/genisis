@@ -12,7 +12,7 @@ import {
   Info
 } from 'lucide-react'
 
-// Article categories
+// filter tabs for the articles section
 const categories = [
   { id: 'all', label: 'All Topics', icon: BookOpen },
   { id: 'causes', label: 'Causes of Infertility', icon: Info },
@@ -23,7 +23,8 @@ const categories = [
   { id: 'stories', label: 'Real Stories', icon: Heart }
 ]
 
-// Articles data
+// article stubs — full content still needs to be written, these are placeholders for now
+// TODO: hook these up to actual article pages (or a CMS) when content is ready
 const articles = [
   {
     slug: 'fibroids-and-fertility',
@@ -108,7 +109,7 @@ const articles = [
   }
 ]
 
-// Zimbabwean Foods Data
+// will add cooking instructions and traditional recipes to each of these later
 const zimbabweFoods = [
   {
     name: 'Muboora',
@@ -154,7 +155,7 @@ const zimbabweFoods = [
   }
 ]
 
-// Herbs data
+// TODO: add dosage info and safety warnings once we've verified these with a herbalist
 const herbs = [
   {
     name: 'Moringa (Mupanga)',

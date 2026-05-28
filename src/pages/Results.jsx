@@ -282,7 +282,8 @@ function Results() {
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* TODO: wire up Save Results — generate a PDF or save to profile */}
+        {/* TODO: Share with Partner — maybe a shareable link or email? */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button className="btn-secondary flex items-center justify-center space-x-2">
             <Download className="w-5 h-5" />

@@ -37,6 +37,9 @@ function MealPlans() {
   }
 
   const savePlan = (planId) => {
+    // TODO: persist this to Supabase so it doesn't disappear on refresh
+    // tried saving to saved_meals table but the schema wasn't ready
+    // const { error } = await supabase.from('saved_meals').insert({ user_id: user.id, plan_id: planId })
     if (!savedPlans.includes(planId)) {
       setSavedPlans(prev => [...prev, planId])
     }
@@ -222,7 +225,7 @@ function MealPlans() {
           </div>
         )}
 
-        {/* Nutrition Tips */}
+        {/* TODO: add a print/download button for the weekly schedule */}
         <div className="mt-10 card p-8 bg-gradient-to-br from-forest-50 to-terracotta-50 border-forest-100">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">General Nutrition Tips</h3>
           <ul className="space-y-3 text-gray-600">

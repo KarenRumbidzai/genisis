@@ -32,21 +32,19 @@ function Signup() {
   const validateForm = () => {
     const newErrors = {}
 
-    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required'
     } else if (formData.name.trim().length < 2) {
       newErrors.name = 'Name must be at least 2 characters'
     }
 
-    // Email validation
     if (!formData.email) {
       newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address'
     }
 
-    // Password validation
+    // supabase requires 6+ chars but we push for 8 with complexity
     if (!formData.password) {
       newErrors.password = 'Password is required'
     } else if (formData.password.length < 8) {
@@ -55,7 +53,6 @@ function Signup() {
       newErrors.password = 'Password must contain uppercase, lowercase, and number'
     }
 
-    // Confirm password
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match'
     }
@@ -132,7 +129,6 @@ function Signup() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Your Name
@@ -160,7 +156,6 @@ function Signup() {
               )}
             </div>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address
@@ -188,7 +183,6 @@ function Signup() {
               )}
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
@@ -226,7 +220,6 @@ function Signup() {
               </p>
             </div>
 
-            {/* Confirm Password */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Confirm Password
@@ -261,7 +254,6 @@ function Signup() {
               )}
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
@@ -281,7 +273,6 @@ function Signup() {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-200" />
@@ -291,7 +282,6 @@ function Signup() {
             </div>
           </div>
 
-          {/* Sign In Link */}
           <p className="text-center text-gray-600">
             Already have an account?{' '}
             <Link to="/login" className="text-terracotta-600 font-medium hover:text-terracotta-700">

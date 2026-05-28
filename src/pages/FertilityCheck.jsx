@@ -14,7 +14,8 @@ import {
 } from 'lucide-react'
 import { getMealPlanForConcern } from '../data/mealPlans'
 
-// Enhanced Analysis Logic with Personalization
+// scoring function - pretty rough right now, needs a proper algorithm eventually
+// TODO: replace this point system with something more medically grounded
 function analyzeFertility(formData) {
   const conditions = {
     ovulationIssues: 0,
@@ -24,7 +25,7 @@ function analyzeFertility(formData) {
     tubalIssues: 0,
   }
 
-  // Ovulation Issues
+  // ovulation signals
   if (formData.cycle === 'irregular') {
     conditions.ovulationIssues += 2
     conditions.hormonalImbalance += 2
@@ -36,7 +37,7 @@ function analyzeFertility(formData) {
     conditions.ovulationIssues += 2
   }
 
-  // Fibroids
+  // fibroid signals
   if (formData.pain === 'severe') {
     conditions.fibroids += 2
   }
@@ -47,7 +48,7 @@ function analyzeFertility(formData) {
     conditions.fibroids += 5
   }
 
-  // Endometriosis
+  // endometriosis signals
   if (formData.pain === 'severe') {
     conditions.endometriosis += 3
   }
@@ -55,7 +56,7 @@ function analyzeFertility(formData) {
     conditions.endometriosis += 2
   }
 
-  // Hormonal Imbalance / PCOS
+  // hormonal / PCOS signals
   if (formData.acne) {
     conditions.hormonalImbalance += 2
   }
@@ -66,7 +67,7 @@ function analyzeFertility(formData) {
     conditions.hormonalImbalance += 2
   }
 
-  // Tubal Issues
+  // tubal factor signals
   if (formData.tryingTime === '1+ year') {
     conditions.tubalIssues += 2
   }
@@ -86,7 +87,7 @@ function analyzeFertility(formData) {
   const primary = labels[sorted[0][0]]
   const secondary = labels[sorted[1][0]]
 
-  // Determine urgency
+  // low / medium / high — drives the banner color on the results page
   let urgency = 'low'
   if (formData.tryingTime === '1+ year' || formData.age > 35 || formData.pain === 'severe') {
     urgency = 'high'
@@ -94,11 +95,10 @@ function analyzeFertility(formData) {
     urgency = 'medium'
   }
 
-  // Generate personalized recommendations
   const recommendations = []
   const personalizedAdvice = []
 
-  // Age-based personalization
+  // age changes what we say — over 35 we push harder toward seeing a specialist
   if (formData.age > 38) {
     personalizedAdvice.push('At your age, egg quality may be a factor. Consider speaking with a fertility specialist about your options.')
   } else if (formData.age > 35) {
@@ -107,16 +107,17 @@ function analyzeFertility(formData) {
     personalizedAdvice.push('While you\'re still young, 6-12 months of trying is a good time to consult a gynaecologist.')
   }
 
-  // Trying time personalization
+  // how long they've been trying matters a lot for the tone of advice
   if (formData.tryingTime === '1+ year') {
     personalizedAdvice.push('You\'ve been trying for over a year—medical support could help identify and address any issues.')
   } else if (formData.tryingTime === '6-12 months') {
     personalizedAdvice.push('Six months of trying is a good milestone to start tracking more closely and consider a check-up.')
   }
 
-  // Weight-based advice
   if (formData.weight) {
     const heightInM = formData.height ? formData.height / 100 : 1.65
+    // parseInt was truncating decimals and throwing off the underweight range
+    // const bmi = parseInt(formData.weight / (heightInM * heightInM))
     const bmi = formData.weight / (heightInM * heightInM)
     
     if (bmi < 18.5) {
@@ -126,7 +127,7 @@ function analyzeFertility(formData) {
     }
   }
 
-  // Condition-specific recommendations
+  // condition-specific tips — these go into the results page list
   if (conditions.ovulationIssues > 0) {
     recommendations.push('Track your cycle daily to identify ovulation patterns')
     recommendations.push('Consider foods that support ovulation like pumpkin seeds (hwakwe) and leafy greens')
@@ -161,7 +162,7 @@ function analyzeFertility(formData) {
   recommendations.push('Stay hydrated and get adequate sleep')
   recommendations.push('Take a prenatal vitamin with folic acid daily')
 
-  // Get recommended meal plan
+  // match to the best meal plan based on what the scoring surfaced
   const recommendedMealPlan = getMealPlanForConcern(primary, secondary)
 
   return {
@@ -231,6 +232,7 @@ function FertilityCheck() {
   const updateField = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     // Clear error when field is updated
+    // clear the field error as soon as they start typing again
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
@@ -330,7 +332,7 @@ function FertilityCheck() {
           </p>
         </div>
 
-        {/* Progress Bar */}
+        {/* TODO: animate the step transition - it feels a bit abrupt right now */}
         <div className="mb-10">
           <div className="flex items-center justify-between mb-4">
             {steps.map((step, index) => {

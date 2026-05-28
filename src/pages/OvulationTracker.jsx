@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, subMonths, addMonths } from 'date-fns'
 
-// Cervical mucus types with fertility indicators
+// egg white and watery = fertile, the rest are not
 const mucusTypes = [
   { value: 'none', label: 'None/Dry', fertile: false, desc: 'Little to no discharge' },
   { value: 'sticky', label: 'Sticky', fertile: false, desc: 'Thick, tacky, cloudy' },
@@ -38,7 +38,7 @@ function OvulationTracker() {
   const [message, setMessage] = useState({ type: '', text: '' })
   const [showNotificationModal, setShowNotificationModal] = useState(false)
 
-  // Form state for selected date
+  // what we track for each individual day
   const [formData, setFormData] = useState({
     period: false,
     flow: 'none',
@@ -119,7 +119,7 @@ function OvulationTracker() {
   }
 
   function calculatePredictions() {
-    // Find the last period start date
+    // work backwards from the last logged period to predict the next one and ovulation
     const periodDates = Object.entries(cycleData)
       .filter(([_, data]) => data.period)
       .map(([date, _]) => new Date(date))
@@ -132,6 +132,8 @@ function OvulationTracker() {
 
     const lastPeriod = periodDates[0]
     const nextPeriod = addDays(lastPeriod, cycleLength)
+    // subtract from lastPeriod not nextPeriod - was off by a day the other way
+    // const ovulationDate = addDays(nextPeriod, -14)
     const ovulationDate = addDays(lastPeriod, cycleLength - 14)
     const fertileWindowStart = addDays(ovulationDate, -5)
     const fertileWindowEnd = addDays(ovulationDate, 1)
@@ -183,7 +185,6 @@ function OvulationTracker() {
 
       if (error) throw error
 
-      // Refresh data
       await fetchCycleData()
       setMessage({ type: 'success', text: 'Saved successfully!' })
       setTimeout(() => setMessage({ type: '', text: '' }), 3000)
@@ -207,12 +208,11 @@ function OvulationTracker() {
 
     const status = []
 
-    // Check logged data
+    // actual logged entries take priority over predictions
     if (data?.period) status.push('period')
     if (data?.mucus === 'eggwhite' || data?.mucus === 'watery') status.push('fertile')
     if (data?.ovulation_test) status.push('ovulation')
 
-    // Check predictions
     if (predictions) {
       if (isSameDay(date, predictions.ovulationDate)) status.push('predicted-ovulation')
       if (date >= predictions.fertileWindowStart && date <= predictions.fertileWindowEnd) {
@@ -309,7 +309,7 @@ function OvulationTracker() {
               </button>
             </div>
 
-            {/* Weekday Headers */}
+            {/* TODO: offset first column to match actual weekday of the 1st — currently starts at Sunday always */}
             <div className="grid grid-cols-7 gap-1 mb-2">
               {weekDays.map(day => (
                 <div key={day} className="text-center text-sm font-medium text-gray-400 py-2">

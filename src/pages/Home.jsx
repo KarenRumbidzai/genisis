@@ -3,7 +3,7 @@ import { ArrowRight, Heart, BookOpen, Utensils, Sparkles, ChevronRight } from 'l
 import lotus from '../assets/lotus.png'
 import logo from '../assets/logo.png'
 
-// Zimbabwean Fertility Foods Data
+// fertility foods - adding more once the research is done
 const zimbabweFoods = [
   {
     name: 'Matemba',
@@ -35,7 +35,7 @@ const zimbabweFoods = [
   }
 ]
 
-// Features Data
+// the four feature cards on the homepage
 const features = [
   {
     icon: BookOpen,
@@ -63,7 +63,7 @@ const features = [
   }
 ]
 
-// Causes of Infertility
+// still digging into some of these - descriptions need more work
 const causes = [
   { name: 'Uterine Fibroids', tag: 'Treatable', description: 'Growths in or on the uterus that can block implantation. Very common in African women.' },
   { name: 'Ovulation Problems', tag: 'Treatable', description: 'Irregular or absent ovulation due to PCOS, thyroid issues, or stress.' },
@@ -73,7 +73,7 @@ const causes = [
   { name: 'Unexplained Infertility', tag: 'Unknown', description: 'Sometimes no clear cause is found. This doesn\'t mean there\'s no hope.' },
 ]
 
-// Steps
+// three steps - might add links or resources to each one later
 const steps = [
   {
     number: '01',
@@ -98,18 +98,16 @@ const steps = [
 function Home() {
   return (
     <div className="overflow-hidden">
-      {/* Hero Section */}
+      {/* hero */}
       <section className="relative min-h-[90vh] flex items-center">
-        {/* Background Gradient */}
         <div className="absolute inset-0 bg-gradient-hero" />
-        
-        {/* Decorative Elements */}
+
+        {/* soft blobs for depth */}
         <div className="absolute top-20 right-10 w-72 h-72 bg-terracotta-200/30 rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-10 w-96 h-96 bg-plum-200/20 rounded-full blur-3xl" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
             <div className="space-y-8">
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-terracotta-100 rounded-full">
                 <Heart className="w-4 h-4 text-terracotta-600" />
@@ -137,7 +135,6 @@ function Home() {
                 </Link>
               </div>
               
-              {/* Stats */}
               <div className="flex items-center space-x-8 pt-4">
                 <div>
                   <p className="text-3xl font-bold text-terracotta-600">80%</p>
@@ -151,7 +148,7 @@ function Home() {
               </div>
             </div>
             
-            {/* Right Content - Lotus Image */}
+            {/* lotus on the right */}
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-terracotta-200/50 to-plum-200/50 rounded-full blur-2xl transform scale-110" />
@@ -166,7 +163,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* features */}
       <section className="py-20 bg-white/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -194,7 +191,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Quote Section */}
+      {/* quote */}
       <section className="py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="relative">
@@ -213,7 +210,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Understanding Infertility Section */}
+      {/* infertility causes */}
       <section className="py-20 bg-white/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -246,7 +243,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Steps Section */}
+      {/* steps */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -272,7 +269,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Zimbabwean Foods Section */}
+      {/* foods */}
       <section className="py-20 bg-white/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -317,11 +314,10 @@ function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* bottom cta */}
       <section className="py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-terracotta-500 via-terracotta-600 to-plum-600 p-12 md:p-16 text-center">
-            {/* Decorative circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2" />
             

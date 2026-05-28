@@ -29,7 +29,7 @@ function Navbar() {
     { path: '/meal-plans', label: 'Meal Plans', icon: Utensils },
   ]
 
-  // Protected links - only show if logged in
+  // only show these if the user is logged in
   const protectedLinks = [
     { path: '/fertility-log', label: 'My Log', icon: ClipboardList },
     { path: '/ovulation-tracker', label: 'Ovulation', icon: Calendar },
@@ -37,11 +37,11 @@ function Navbar() {
 
   const isActive = (path) => location.pathname === path
 
+  // TODO: close mobile menu automatically when route changes (currently stays open)
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-terracotta-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <img 
               src={logo} 
@@ -53,7 +53,6 @@ function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navLinks.map((link) => {
               const Icon = link.icon
@@ -89,7 +88,6 @@ function Navbar() {
             })}
           </div>
 
-          {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <div className="relative">
@@ -106,7 +104,7 @@ function Navbar() {
                   <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* User Dropdown */}
+                {/* dropdown — closes when user clicks a link or signs out */}
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-lg border border-gray-100 py-2">
                     <Link
@@ -142,7 +140,7 @@ function Navbar() {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* hamburger / close toggle on mobile */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden p-2 rounded-xl text-gray-600 hover:bg-terracotta-50 transition-colors"
@@ -152,7 +150,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* mobile nav drawer */}
       {isOpen && (
         <div className="md:hidden bg-white border-t border-terracotta-100">
           <div className="px-4 py-4 space-y-2">

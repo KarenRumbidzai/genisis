@@ -91,7 +91,6 @@ function Profile() {
           </p>
         </div>
 
-        {/* Message */}
         {message.text && (
           <div className={`mb-6 p-4 rounded-xl flex items-center space-x-3 ${
             message.type === 'error' 
@@ -107,7 +106,6 @@ function Profile() {
           </div>
         )}
 
-        {/* Profile Info Card */}
         <div className="card p-8 mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-800">Personal Information</h2>
@@ -307,7 +305,7 @@ function Profile() {
           )}
         </div>
 
-        {/* Account Actions */}
+        {/* TODO: add a "change password" option here once we have the reset flow */}
         <div className="card p-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-6">Account Actions</h2>
           
@@ -330,7 +328,7 @@ function Profile() {
           </div>
         </div>
 
-        {/* Delete Account Confirmation Modal */}
+        {/* confirmation modal - requires typing DELETE to prevent accidental deletion */}
         {showDeleteConfirm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
             <div className="bg-white rounded-3xl p-8 max-w-md w-full">

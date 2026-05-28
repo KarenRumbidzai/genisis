@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Check active session
+    // grab any existing session when the app first loads
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       if (session?.user) {
@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
       }
     })
 
-    // Listen for auth changes
+    // fires on login, logout, and token refresh
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       if (session?.user) {
@@ -111,15 +111,17 @@ export function AuthProvider({ children }) {
 
   async function deleteAccount() {
     try {
-      // Delete all user data first
+      // wipe all user data before removing the account — profiles row must go last
+      // tried doing this with a single rpc call but the db function wasn't set up yet
+      // const { error } = await supabase.rpc('delete_user_account', { uid: user.id })
       await supabase.from('fertility_logs').delete().eq('user_id', user.id)
       await supabase.from('fertility_checks').delete().eq('user_id', user.id)
       await supabase.from('saved_meals').delete().eq('user_id', user.id)
       await supabase.from('cycle_predictions').delete().eq('user_id', user.id)
       await supabase.from('user_settings').delete().eq('user_id', user.id)
       await supabase.from('profiles').delete().eq('id', user.id)
-      
-      // Sign out
+
+      // TODO: also need to delete the auth user via admin API — this only removes the profile row
       await signOut()
       
       return { error: null }

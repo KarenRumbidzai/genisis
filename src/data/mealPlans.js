@@ -1,5 +1,5 @@
-// Meal Plans for Different Fertility Concerns
-// Each plan includes Sunday to Sunday with breakfast, lunch, dinner, and snacks
+// meal plans for the five fertility focus areas
+// each runs Sunday to Sunday with breakfast, snack, lunch, snack, dinner
 
 export const mealPlans = {
   general: {
@@ -283,9 +283,8 @@ export const mealPlans = {
   }
 }
 
-// Get meal plan based on fertility concern
+// picks the right plan based on what came out of the fertility check
 export function getMealPlanForConcern(primaryConcern, secondaryConcern) {
-  // Map concerns to meal plan keys
   const concernMapping = {
     'Ovulation Challenges': 'ovulation',
     'Hormonal Imbalance': 'hormonal',
@@ -294,15 +293,15 @@ export function getMealPlanForConcern(primaryConcern, secondaryConcern) {
     'Tubal Factors': 'general'
   }
 
-  // Try primary concern first, then secondary, then default to general
-  const planKey = concernMapping[primaryConcern] || 
-                  concernMapping[secondaryConcern] || 
-                  'general'
+  // primary first, fall back to secondary, then just use general if nothing matches
+  const planKey = concernMapping[primaryConcern] ||
+    concernMapping[secondaryConcern] ||
+    'general'
 
   return mealPlans[planKey]
 }
 
-// Get all meal plans for display
+// flatten the object into an array so the UI can loop over it easily
 export function getAllMealPlans() {
   return Object.entries(mealPlans).map(([key, plan]) => ({
     id: key,

@@ -26,7 +26,7 @@ import {
 } from 'lucide-react'
 import { format, subDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay } from 'date-fns'
 
-// Mood options with icons and colors
+// five mood states - might add a sixth (anxious?) once we get user feedback
 const moods = [
   { value: 'great', label: 'Great', icon: Sparkles, color: 'text-amber-500 bg-amber-50 border-amber-200' },
   { value: 'good', label: 'Good', icon: Smile, color: 'text-green-500 bg-green-50 border-green-200' },
@@ -35,7 +35,6 @@ const moods = [
   { value: 'terrible', label: 'Terrible', icon: CloudRain, color: 'text-gray-500 bg-gray-50 border-gray-200' }
 ]
 
-// Symptoms list
 const symptomsList = [
   { id: 'cramps', label: 'Cramps', icon: Activity },
   { id: 'headache', label: 'Headache', icon: Activity },
@@ -49,7 +48,6 @@ const symptomsList = [
   { id: 'insomnia', label: 'Insomnia', icon: Moon }
 ]
 
-// Flow levels
 const flowLevels = [
   { value: 'none', label: 'No Flow', color: 'bg-gray-100 text-gray-500' },
   { value: 'light', label: 'Light', color: 'bg-pink-100 text-pink-600' },
@@ -57,7 +55,6 @@ const flowLevels = [
   { value: 'heavy', label: 'Heavy', color: 'bg-red-100 text-red-600' }
 ]
 
-// Cervical mucus types
 const mucusTypes = [
   { value: 'none', label: 'None/Dry', desc: 'Little to no discharge' },
   { value: 'sticky', label: 'Sticky', desc: 'Thick, tacky, cloudy' },
@@ -68,7 +65,7 @@ const mucusTypes = [
 
 function FertilityLog() {
   const { user } = useAuth()
-  const [activeTab, setActiveTab] = useState('log') // 'log' or 'summary'
+  const [activeTab, setActiveTab] = useState('log')
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [savedLogs, setSavedLogs] = useState([])
   const [loading, setLoading] = useState(true)
@@ -76,7 +73,7 @@ function FertilityLog() {
   const [saved, setSaved] = useState(false)
   const [message, setMessage] = useState({ type: '', text: '' })
 
-  // Form state
+  // all the fields for a single day's log entry
   const [selectedMood, setSelectedMood] = useState('')
   const [selectedSymptoms, setSelectedSymptoms] = useState([])
   const [flow, setFlow] = useState('')
@@ -86,14 +83,14 @@ function FertilityLog() {
   const [hadSex, setHadSex] = useState(false)
   const [tookMeds, setTookMeds] = useState(false)
 
-  // Fetch saved logs on mount
+  // pull all logs once we know who the user is
   useEffect(() => {
     if (user) {
       fetchLogs()
     }
   }, [user])
 
-  // Load data for selected date
+  // whenever the date changes, fill the form with that day's data (or reset it)
   useEffect(() => {
     if (user) {
       loadDayData()
@@ -102,6 +99,8 @@ function FertilityLog() {
 
   async function fetchLogs() {
     try {
+      // descending so newest entries are first in the summary table
+      // had this as ascending: true at first but the table looked backwards
       const { data, error } = await supabase
         .from('fertility_logs')
         .select('*')
@@ -131,7 +130,7 @@ function FertilityLog() {
       setHadSex(existingLog.had_sex || false)
       setTookMeds(existingLog.took_meds || false)
     } else {
-      // Reset form
+      // nothing logged yet for this day - start with a blank form
       setSelectedMood('')
       setSelectedSymptoms([])
       setFlow('')
@@ -211,7 +210,7 @@ function FertilityLog() {
     setSelectedDate(newDate)
   }
 
-  // Calculate summary statistics
+  // crunch all the logs into the four stat cards on the summary tab
   const getSummaryStats = () => {
     if (savedLogs.length === 0) return null
 
@@ -222,32 +221,27 @@ function FertilityLog() {
     let highFertilityDays = 0
 
     savedLogs.forEach(log => {
-      // Count moods
       if (log.mood) {
         moodCounts[log.mood] = (moodCounts[log.mood] || 0) + 1
       }
 
-      // Count symptoms
       log.symptoms?.forEach(symptom => {
         symptomCounts[symptom] = (symptomCounts[symptom] || 0) + 1
       })
 
-      // Count period days
       if (log.flow_level && log.flow_level !== 'none') {
         periodDays++
       }
 
-      // Count high fertility days
       if (log.mucus_type === 'eggwhite' || log.mucus_type === 'watery') {
         highFertilityDays++
       }
     })
 
-    // Get most common mood
     const mostCommonMood = Object.entries(moodCounts)
       .sort((a, b) => b[1] - a[1])[0]
 
-    // Get most common symptoms
+    // top 3 symptoms for the bar chart
     const topSymptoms = Object.entries(symptomCounts)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3)
@@ -261,7 +255,8 @@ function FertilityLog() {
     }
   }
 
-  // Get recent week data for chart
+  // last 7 days for the mini weekly overview strip
+  // TODO: make this a proper chart with a library once we have more space on the page
   const getRecentWeekData = () => {
     const end = new Date()
     const start = subDays(end, 6)
@@ -284,7 +279,7 @@ function FertilityLog() {
   const stats = getSummaryStats()
   const weekData = getRecentWeekData()
 
-  // If not logged in, show login prompt
+  // ProtectedRoute should handle this, but keeping it as a fallback just in case
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-warm flex items-center justify-center py-12 px-4">

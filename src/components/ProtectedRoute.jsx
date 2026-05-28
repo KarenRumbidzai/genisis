@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react'
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
 
+  // TODO: replace this with a proper skeleton or branded loading screen
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-warm flex items-center justify-center">

@@ -9,7 +9,6 @@ function Footer() {
     <footer className="bg-white border-t border-terracotta-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-3">
               <img src={logo} alt="Genesi" className="h-10 w-auto" />
@@ -27,7 +26,6 @@ function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">Quick Links</h3>
             <ul className="space-y-3">
@@ -54,7 +52,7 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* TODO: link these resource items to actual pages or articles once content exists */}
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">Resources</h3>
             <ul className="space-y-3">
@@ -73,7 +71,6 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">Get in Touch</h3>
             <ul className="space-y-3">
@@ -93,7 +90,6 @@ function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-gray-100">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
