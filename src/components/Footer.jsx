@@ -23,7 +23,7 @@ function Footer() {
             </p>
             <div className="flex items-center space-x-2 text-terracotta-500">
               <Heart className="w-4 h-4 fill-current" />
-              <span className="text-sm font-medium">Made with love in Zimbabwe</span>
+              <span className="text-sm font-medium">Made with love by KarenRumbie</span>
             </div>
           </div>
 
@@ -79,7 +79,7 @@ function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center space-x-3 text-gray-500 text-sm">
                 <Mail className="w-4 h-4 text-terracotta-500" />
-                <span>hello@genesi.co.zw</span>
+                <span>hello@karenrumbie.com</span>
               </li>
               <li className="flex items-center space-x-3 text-gray-500 text-sm">
                 <Phone className="w-4 h-4 text-terracotta-500" />
